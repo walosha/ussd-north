@@ -1,22 +1,26 @@
 "use strict";
 
 module.exports.requestFromMobile = (event, context, callback) => {
-  const { sessionId, serviceCode, phoneNumber, text } = JSON.parse(event.body);
+  const { sessionId, serviceCode, phoneNumber, text } = Object.fromEntries(
+    new URLSearchParams(event.body)
+  );
+
+  console.log({ sessionId, serviceCode, phoneNumber, text });
 
   let response = "";
 
   if (text == "") {
     // This is the first request. Note how we start the response with CON
     response = `CON Enter 12-digit recharge code`;
-  } else if (text.length == 12) {
+  } else if (Number(text.length) == 12) {
     // Business logic for first level response
-    response = `${phoneNumber} was successfully credited with mobile data END`;
-  } else if (text.length !== 12) {
+    response = `END ${phoneNumber} was successfully credited with mobile data`;
+  } else if (Number(text.length) != 12) {
     // This is a second level response where the user selected 1 in the first instance
-    response = `END operation failed!, SessionId${sessionId}/${serviceCode}`;
+    response = `END Operation failed!, SessionId${sessionId} END`;
   }
 
-  result = {
+  let result = {
     statusCode: 200,
     headers: {
       "Access-Control-Allow-Origin": "*",

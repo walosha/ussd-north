@@ -1,3 +1,5 @@
+org: walosha
+console: true
 # Welcome to serverless. Read the docs
 # https://serverless.com/framework/docs/
 
