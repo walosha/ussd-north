@@ -5,17 +5,15 @@ module.exports.requestFromMobile = (event, context, callback) => {
     new URLSearchParams(event.body)
   );
 
-  console.log({ sessionId, serviceCode, phoneNumber, text });
-
   let response = "";
 
   if (text == "") {
     // This is the first request. Note how we start the response with CON
     response = `CON Enter 12-digit recharge code`;
-  } else if (Number(text.length) == 12) {
+  } else if (Number(text?.length) == 12) {
     // Business logic for first level response
     response = `END ${phoneNumber} was successfully credited with mobile data`;
-  } else if (Number(text.length) != 12) {
+  } else if (Number(text?.length) != 12) {
     // This is a second level response where the user selected 1 in the first instance
     response = `END Operation failed!, SessionId${sessionId} END`;
   }

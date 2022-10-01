@@ -25,3 +25,8 @@ functions:
           path: ussd/requestFromMobile
           method: post
           cors: true
+plugins:
+  - serverless-offline
+custom:
+  serverless-offline:
+    httpPort: 4002
